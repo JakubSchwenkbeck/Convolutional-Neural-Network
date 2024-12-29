@@ -1,10 +1,7 @@
 package network;
 
-import layers.ConvolutionLayer;
-import layers.FCLayer;
-import layers.Layer;
-import layers.MaxPoolLayer;
-
+import layer.*;
+import layer.Layer;
 import java.util.ArrayList;
 import java.util.List;
 

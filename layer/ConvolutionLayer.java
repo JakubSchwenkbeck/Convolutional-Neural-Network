@@ -1,4 +1,6 @@
-package layers;
+package layer;
+
+import layer.Layer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -7,7 +9,7 @@ import java.util.Random;
 import static data.MatrixUtility.add;
 import static data.MatrixUtility.multiply;
 
-public class ConvolutionLayer extends Layer{
+public class ConvolutionLayer extends Layer {
 
 
     //seed for random filters

@@ -1,9 +1,11 @@
-package layers;
+package layer;
+
+import layer.Layer;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MaxPoolLayer extends Layer{
+public class MaxPoolLayer extends Layer {
 
     private int _stepSize;
     private int _windowSize;

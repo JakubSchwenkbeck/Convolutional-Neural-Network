@@ -1,10 +1,10 @@
-package layers;
+package layer;
 
 import java.util.List;
 import java.util.Random;
 
-public class FCLayer extends Layer{
-    //FullyConnectedLayer inherits from abstract Layer class
+public class FCLayer extends Layer {
+    //FullyConnectedLayer inherits from abstract Layer.java class
 
     private double[][] _weights; //set of weights in matrix
 

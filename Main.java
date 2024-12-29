@@ -17,8 +17,8 @@ public class Main {
 
         System.out.println("Starting data loading...");
 
-        List<Image> imagesTest = new dataReader().readData("data/mnist_test.csv");
-        List<Image> imagesTrain = new dataReader().readData("data/mnist_train.csv");
+        List<Image> imagesTest = new dataReader().readData("Data/mnist_test.csv");
+        List<Image> imagesTrain = new dataReader().readData("Data/mnist_train.csv");
 
         System.out.println("Images Train size: " + imagesTrain.size());
         System.out.println("Images Test size: " + imagesTest.size());

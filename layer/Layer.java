@@ -1,4 +1,4 @@
-package layers;
+package layer;
 import java.util.ArrayList;
 import java.util.List;
 public abstract class Layer {

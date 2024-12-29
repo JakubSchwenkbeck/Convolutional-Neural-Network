@@ -1,7 +1,7 @@
 package network;
 
 import data.Image;
-import layers.Layer;
+import layer.Layer;
 
 import java.util.ArrayList;
 import java.util.List;
