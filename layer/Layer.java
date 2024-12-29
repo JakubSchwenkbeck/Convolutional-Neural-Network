@@ -1,10 +1,11 @@
 package layer;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 // Abstract base class for neural network layers. Handles core layer connections and utility functions.
-public abstract class Layer {
+public abstract class Layer implements Serializable  {
 
     // Reference to the next layer in the network.
     protected Layer nextLayer;

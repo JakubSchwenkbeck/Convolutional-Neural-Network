@@ -3,6 +3,7 @@ package training;
 import data.Image;
 import data.dataReader;
 import network.NetworkBuilder;
+import network.NetworkUtils;
 import network.NeuralNetwork;
 
 import java.util.List;
@@ -15,9 +16,10 @@ public class TrainNetwork {
         long SEED = 123;
 
         System.out.println("Starting data loading...");
+        String networkFile = "saved_network.dat";
 
-        List<Image> imagesTest = new dataReader().readData("Data/mnist_test.csv");
-        List<Image> imagesTrain = new dataReader().readData("Data/mnist_train.csv");
+        List<Image> imagesTest = dataReader.readData("Data/mnist_test.csv");
+        List<Image> imagesTrain = dataReader.readData("Data/mnist_train.csv");
 
         System.out.println("Images Train size: " + imagesTrain.size());
         System.out.println("Images Test size: " + imagesTest.size());
@@ -28,17 +30,19 @@ public class TrainNetwork {
         builder.addFullyConnectedLayer(10, 0.1, SEED);
 
         NeuralNetwork net = builder.build();
-
         float rate = net.test(imagesTest);
         System.out.println("Pre training success rate: " + rate);
 
         int epochs = 3;
 
-        for(int i = 0; i < epochs; i++){
+        for(int i = 1; i <= epochs; i++){
             shuffle(imagesTrain);
             net.train(imagesTrain);
             rate = net.test(imagesTest);
             System.out.println("Success rate after round " + i + ": " + rate);
+            NetworkUtils.saveNetwork(net, networkFile); // Save after each epoch
+
+
         }
     }
 }
