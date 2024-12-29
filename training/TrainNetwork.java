@@ -33,9 +33,9 @@ public class TrainNetwork {
         float rate = net.test(imagesTest);
         System.out.println("Pre training success rate: " + rate);
 
-        int epochs = 5;
+        int epochs = 3;
 
-        for(int i = 0; i < epochs; i++){
+        for(int i = 1; i <= epochs; i++){
             shuffle(imagesTrain);
             net.train(imagesTrain);
             rate = net.test(imagesTest);
