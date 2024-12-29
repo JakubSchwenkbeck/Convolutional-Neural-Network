@@ -1,13 +1,13 @@
 package network;
 
 import layer.*;
-import layer.Layer;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class NetworkBuilder {
 
-    private Neuralnetwork net;
+    private NeuralNetwork net;
     private int _inputRows;
     private int _inputCols;
     private double _scaleFactor;
@@ -25,7 +25,7 @@ public class NetworkBuilder {
             _layers.add(new ConvolutionLayer(filterSize, stepSize, 1, _inputRows, _inputCols, SEED, numFilters, learningRate));
         } else {
             Layer prev = _layers.get(_layers.size()-1);
-            _layers.add(new ConvolutionLayer(filterSize, stepSize, prev.getOutputLength(), prev.getOutputRow(), prev.getOutputCol(), SEED, numFilters, learningRate));
+            _layers.add(new ConvolutionLayer(filterSize, stepSize, prev.getOutputLength(), prev.getOutputRows(), prev.getOutputCols(), SEED, numFilters, learningRate));
         }
     }
 
@@ -34,22 +34,22 @@ public class NetworkBuilder {
             _layers.add(new MaxPoolLayer(stepSize, windowSize, 1, _inputRows, _inputCols));
         } else {
             Layer prev = _layers.get(_layers.size()-1);
-            _layers.add(new MaxPoolLayer(stepSize, windowSize, prev.getOutputLength(), prev.getOutputRow(), prev.getOutputCol()));
+            _layers.add(new MaxPoolLayer(stepSize, windowSize, prev.getOutputLength(), prev.getOutputRows(), prev.getOutputCols()));
         }
     }
 
     public void addFullyConnectedLayer(int outLength, double learningRate, long SEED){
         if(_layers.isEmpty()) {
-            _layers.add(new FCLayer(_inputCols*_inputRows, outLength, SEED, learningRate));
+            _layers.add(new FullyConnectedLayer(_inputCols*_inputRows, outLength, SEED, learningRate));
         } else {
             Layer prev = _layers.get(_layers.size()-1);
-            _layers.add(new FCLayer(prev.getOutputElements(), outLength, SEED, learningRate));
+            _layers.add(new FullyConnectedLayer(prev.getOutputElements(), outLength, SEED, learningRate));
         }
 
     }
 
-    public Neuralnetwork build(){
-        net = new Neuralnetwork(_layers, _scaleFactor);
+    public NeuralNetwork build(){
+        net = new NeuralNetwork(_layers, _scaleFactor);
         return net;
     }
 

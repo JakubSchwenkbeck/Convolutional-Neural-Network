@@ -1,91 +1,102 @@
 package layer;
+
 import java.util.ArrayList;
 import java.util.List;
+
+// Abstract base class for neural network layers. Handles core layer connections and utility functions.
 public abstract class Layer {
-//abstract class for all layer types to inherit from
 
+    // Reference to the next layer in the network.
+    protected Layer nextLayer;
 
+    // Reference to the previous layer in the network.
+    protected Layer previousLayer;
 
-    protected Layer _nextLayer;
-    protected Layer _prevLayer;
-    //getter and setter :
-    public Layer get_nextLayer() {
-        return _nextLayer;
+    // Gets the next layer.
+    public Layer getNextLayer() {
+        return nextLayer;
     }
 
-    public void set_nextLayer(Layer _nextLayer) {
-        this._nextLayer = _nextLayer;
+    // Sets the next layer.
+    public void setNextLayer(Layer nextLayer) {
+        this.nextLayer = nextLayer;
     }
 
-    public Layer get_prevLayer() {
-        return _prevLayer;
+    // Gets the previous layer.
+    public Layer getPreviousLayer() {
+        return previousLayer;
     }
 
-    public void set_prevLayer(Layer _prevLayer) {
-        this._prevLayer = _prevLayer;
+    // Sets the previous layer.
+    public void setPreviousLayer(Layer previousLayer) {
+        this.previousLayer = previousLayer;
     }
 
-
-    //get output attributes
-    public abstract int getOutputLength();
-    public abstract int getOutputRow();
-    public abstract int getOutputCol();
-    public abstract int getOutputElements();
-
-
-    // get output and backPropagation(like stack call) for both 1 and 2 dim arrays
+    // Computes the output of the layer from a list of 3D input data.
     public abstract double[] getOutput(List<double[][]> input);
+
+    // Computes the output of the layer from a 1D input array.
     public abstract double[] getOutput(double[] input);
 
-    public abstract void backPropagation(double[] dLdO);
-    public abstract void backPropagation(List<double[][]> dLdO);
+    // Handles backpropagation with gradients given as a 1D array.
+    public abstract void backPropagation(double[] gradients);
 
+    // Handles backpropagation with gradients given as a list of 3D arrays.
+    public abstract void backPropagation(List<double[][]> gradients);
 
-    //conversion from one output type to the other
-    public double[] matrixToVector(List<double[][]> input){
-        int length = input.size();
-        int rows = input.get(0).length;
-        int cols = input.get(0)[0].length;
+    // Returns the total length of the layer's output as a flat vector.
+    public abstract int getOutputLength();
 
-        int index = 0;
-        double[] vec = new double[length*rows*cols];
-        for (int i = 0; i < length; i++) {
-            for (int j = 0; j < rows; j++) {
-                for (int k = 0; k <cols ; k++) {
-                    vec[index] = input.get(i)[j][k];
+    // Returns the number of rows in the layer's output matrix.
+    public abstract int getOutputRows();
+
+    // Returns the number of columns in the layer's output matrix.
+    public abstract int getOutputCols();
+
+    // Returns the total number of elements in the layer's output matrix.
+    public abstract int getOutputElements();
+
+    // Flattens a list of 3D matrices into a single 1D array.
+    public double[] matrixToVector(List<double[][]> input) {
+        int length = input.size(); // Number of matrices.
+        int rows = input.get(0).length; // Rows in each matrix.
+        int cols = input.get(0)[0].length; // Columns in each matrix.
+
+        double[] vector = new double[length * rows * cols]; // Result array.
+        int index = 0; // Keeps track of position in the result array.
+
+        // Iterate through all matrices and flatten.
+        for (int l = 0; l < length; l++) {
+            for (int r = 0; r < rows; r++) {
+                for (int c = 0; c < cols; c++) {
+                    vector[index] = input.get(l)[r][c];
                     index++;
                 }
             }
         }
 
-
-        return vec;
+        return vector;
     }
 
+    // Converts a flat 1D array into a list of 3D matrices with the specified dimensions.
+    public List<double[][]> vectorToMatrix(double[] input, int length, int rows, int cols) {
+        List<double[][]> output = new ArrayList<>(); // Holds the reconstructed matrices.
+        int index = 0; // Keeps track of position in the input array.
 
-    public List<double[][]> vectorToMatrix(double[] input, int rows, int cols,int length) {
-        List<double[][]> output = new ArrayList<>();
-        int index = 0;
+        // Reconstruct matrices one by one.
+        for (int l = 0; l < length; l++) {
+            double[][] matrix = new double[rows][cols]; // Create a new matrix.
 
-        for (int i = 0; i < length; i++) {
-
-
-            double[][] mat = new double[rows][cols];
-
-
-            for (int j = 0; j < rows; j++) {
-                for (int k = 0; k < cols; k++) {
-                    mat[j][k] = input[index];
+            for (int r = 0; r < rows; r++) {
+                for (int c = 0; c < cols; c++) {
+                    matrix[r][c] = input[index]; // Fill matrix from input array.
                     index++;
                 }
             }
 
-            output.add(mat);
-
+            output.add(matrix); // Add the matrix to the result list.
         }
+
         return output;
     }
-
-
-
 }
