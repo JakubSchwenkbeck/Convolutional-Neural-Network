@@ -7,11 +7,11 @@ import java.util.List;
 
 public class dataReader {
     //class to read mnist data from files into arrays
-    private final int rows = 28;
-    private final int cols = 28;
+    private static final int rows = 28;
+    private static final int cols = 28;
 
 
-    public List<Image> readData(String path)  {
+    public static List<Image> readData(String path)  {
 
     List<Image> Images = new ArrayList<>();
 
